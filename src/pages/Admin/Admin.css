@@ -1,0 +1,39 @@
+/* Admin.css */
+.admin-wrapper {
+  background-color: #FF4500; /* Laranja */
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+.admin-title {
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.admin-card {
+  border-radius: 15px !important;
+  border: none !important;
+  transition: transform 0.3s ease;
+}
+
+.admin-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+/* Ajuste para os botões */
+.btn {
+  font-weight: 600;
+  padding: 0.5rem 1.5rem;
+}
+
+.body-logo {
+  max-width: 400px;       /* Tamanho máximo */
+  width: 100%;            /* Responsividade */
+  height: auto;           /* Proporção automática */
+  display: block;         /* Transforma em bloco para margin auto funcionar */
+  margin-left: auto;      /* Centraliza horizontalmente */
+  margin-right: auto;     /* Centraliza horizontalmente */
+  margin-bottom: 2rem;    /* Adicionei o valor que estava faltando (2rem) */
+  object-fit: contain;    /* Previne distorção */
+}

@@ -1,0 +1,15 @@
+administrador
+
+exportar arquivo excel com data inicial e final 
+adicionar  e excluir usuário
+rota linkada para fazer os mesmos lançamentos que os usuarios padrões
+recuperação de senha dos usuarios
+mensagem de bem vindo 
+design responsivo 
+exibição de erro de login
+Redirecionamento após Login
+
+usuario padrão 
+bloquear data de lançamentos futuros, somente até o dia atual
+Redirecionamento após Login
+mensagem de bem vindo 

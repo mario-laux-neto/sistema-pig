@@ -1,0 +1,262 @@
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  /* Vacinação */
+.vacinas-group {
+  margin-top: 25px;
+  width: 100%;
+}
+
+.vacina-row {
+  display: flex;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.vacina-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+}
+
+.vacina-nome {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.checkbox-group {
+  min-width: 300px;
+  flex-grow: 1;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.quantidade-container {
+  width: 150px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.quantidade-input {
+  width: 200px;
+  padding: 8px 25px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  text-align: right;
+}
+
+.quantidade-input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+/* Responsividade Vacinação */
+@media (max-width: 768px) {
+  .vacina-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .quantidade-container {
+    justify-content: flex-start;
+    width: 100%;
+    margin-left: 28px;
+  }
+
+  .quantidade-input {
+    width: 80px;
+  }
+}
+
+/* Validação */
+.input-error {
+  border: 2px solid #ff0000;
+  background-color: #fff0f0;
+}
+
+.error-message {
+  color: #ff0000;
+  font-size: 0.8rem;
+  margin-top: 4px;
+  display: block;
+}
+
+.submit-btn {
+  background-color: #ff4000; /* Cor de fundo */
+  color: white; /* Cor do texto */
+  padding: 12px 20px; /* Espaçamento interno */
+  /*border: none; /* Sem borda */
+  border-radius: 5px; /* Bordas arredondadas */
+  cursor: pointer; /* Cursor de ponteiro */
+  font-size: 16px; /* Tamanho da fonte */
+  transition: background-color 0.3s ease; /* Efeito de transição */
+}
+
+.submit-btn:hover {
+  background-color: #ff7243; /* Cor de fundo ao passar o mouse */
+}
+
+.submit-btn:active {
+  background-color: #ef4a09; /* Cor de fundo ao clicar */
+}
+
+.submit-btn:focus {
+  outline: none; /* Remove o contorno padrão */
+  box-shadow: 0 0 5px 2px rgba(255, 0, 0, 0.5); /* Efeito de foco */
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #fff5f0;
+  margin: 0;
+  font: inherit;
+  color: #ff4000;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ff4000;
+  border-radius: 5px;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em #ff4000;
+  transform-origin: center;
+  border-radius: 2px;
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+input[type="checkbox"]:hover {
+  background-color: #ffe1d6;
+}
+
+/* Estilização geral para inputs e textareas */
+input, textarea {
+  padding: 12px;
+  border: 2px solid #FF4500;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  font-size: 16px;
+  color: #333;
+  transition: all 0.4s ease;
+}
+
+/* Estilo no foco (clique) */
+input:focus, textarea:focus {
+  border-color: #FF4500;
+  background-color: #fff2ea;
+  outline: none;
+}
+
+/* Personalização de checkbox */
+input[type="checkbox"],
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #fff5f0;
+  margin-right: 8px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #FF4500;
+  border-radius: 5px;
+  display: inline-grid;
+  place-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Ícone de seleção */
+input[type="checkbox"]::before,
+input[type="radio"]::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em #FF4500;
+  transform-origin: center;
+  border-radius: 2px;
+}
+
+/* Quando marcada */
+input[type="checkbox"]:checked::before,
+input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+/* Hover nos campos */
+input[type="checkbox"]:hover,
+input[type="radio"]:hover {
+  background-color: #ffe1d6;
+}
+
+/* Estilo dos botões */
+button, input[type="submit"] {
+  background-color: #ff4000;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  background-color: #cc3300;
+}
+
+select {
+  padding: 12px;
+  border: 2px solid #FF4500;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  color: #333;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Estilo ao focar (clicar) */
+select:focus {
+  outline: none;
+  border-color: #FF4500;
+  background-color: #fff2ea;
+}
+

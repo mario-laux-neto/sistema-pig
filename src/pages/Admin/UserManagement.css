@@ -1,0 +1,72 @@
+.user-management-container {
+    padding: 20px;
+    background-color: #f4f4f4;
+    text-align: center;
+  }
+  
+  .add-user {
+    margin-bottom: 20px;
+  }
+  
+  .add-user input {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    width: 250px;
+  }
+  
+  .add-user button {
+    padding: 10px 20px;
+    background-color: #FF4500;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .add-user button:hover {
+    background-color: #e03c00;
+  }
+  
+  .user-list {
+    margin-top: 20px;
+  }
+  
+  .user-list ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .user-list li {
+    margin: 10px 0;
+    font-size: 16px;
+  }
+  
+  .user-list button {
+    padding: 5px 10px;
+    background-color: #FF4500;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .user-list button:hover {
+    background-color: #e03c00;
+  }
+  .back-to-home {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #FF4500;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .back-to-home:hover {
+    background-color: #ed521e;
+  }
+  

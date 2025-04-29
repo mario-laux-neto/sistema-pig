@@ -1,0 +1,66 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #FF4500; /* Fundo laranja forte */
+  }
+  
+  .login-form {
+    background: #ff7243; /* Caixa de login laranja claro */
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Aumentei o box-shadow para dar mais profundidade */
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Para centralizar a logo e os inputs */
+  }
+  
+  .header-logo {
+    max-width: 180px; /* Tamanho da logo ajustado para ficar proporcional */
+    height: auto; /* Mantém a proporção */
+    object-fit: contain; /* Impede a distorção da logo */
+    margin-bottom: 1.5rem; /* Espaçamento entre a logo e o título */
+  }
+  
+  .login-form h2 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: white; /* Cor branca para o título */
+    font-size: 1.5rem; /* Ajuste no tamanho da fonte */
+  }
+  
+  .login-form input {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 5px;
+    width: 100%; /* Para os inputs ocuparem toda a largura da caixa */
+    box-sizing: border-box; /* Garante que o padding não ultrapasse a largura */
+  }
+  
+  .login-form input:focus {
+    outline: none;
+    border: 2px solid #FF4500; /* Deixa a borda laranja quando o input é focado */
+  }
+  
+  .login-form button {
+    padding: 0.75rem;
+    border: none;
+    background-color: #FF4500;
+    color: whitesmoke;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%; /* Faz o botão ocupar toda a largura */
+  }
+  
+  .login-form button:hover {
+    background-color: #ed521e; /* Cor do botão ao passar o mouse */
+  }
+  
+  .login-form button:active {
+    background-color: #d84f16; /* Cor ao clicar no botão */
+  }
+  
