@@ -1,0 +1,18 @@
+.admin-wrapper {
+    background-color: #FF4500; /* Fundo laranja */
+    min-height: 100vh; /* 100% altura da tela */
+    padding: 20px;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .w-100 {
+    width: 100%;
+  }
+  
+  .fw-bold {
+    font-weight: bold;
+  }
+  

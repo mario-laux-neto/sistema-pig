@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import './../styles/formulario.css';
+import React, { useState } from "react";
+import '../styles/formulario.css';
 
 const FormularioVacinacao = () => {
   const [formData, setFormData] = useState({
-    nome: '',
-    produtorUPD: '',
-    produtorCreche: '',
-    dataAplicacao: '',
-    vacinadorAjudante: '',
-    leitoasVacinadas: '',
-    matrizesVacinadas: '',
-    leitoesMaternidade: '',
-    leitoesCreche: '',
-    ajudante: '',
+    nome: "",
+    produtorUPD: "",
+    produtorCreche: "",
+    dataAplicacao: "",
+    vacinadorAjudante: "",
+    leitoasVacinadas: "",
+    matrizesVacinadas: "",
+    leitoesMaternidade: "",
+    leitoesCreche: "",
+    ajudante: "",
     // Checkboxes de vacinas
     coliRotavirus: false,
     coli: false,
@@ -26,17 +26,17 @@ const FormularioVacinacao = () => {
     lawsonia: false,
     influenza: false,
     // Quantidades
-    coliRotavirusQtd: '',
-    coliQtd: '',
-    riniteQtd: '',
-    parvoviroseErisipelaQtd: '',
-    mycoplasmaCircovirusQtd: '',
-    circovirusQtd: '',
-    mycoplasmaQtd: '',
-    autogenaStreptococcusQtd: '',
-    autogenaRespiratorioQtd: '',
-    lawsoniaQtd: '',
-    influenzaQtd: '',
+    coliRotavirusQtd: "",
+    coliQtd: "",
+    riniteQtd: "",
+    parvoviroseErisipelaQtd: "",
+    mycoplasmaCircovirusQtd: "",
+    circovirusQtd: "",
+    mycoplasmaQtd: "",
+    autogenaStreptococcusQtd: "",
+    autogenaRespiratorioQtd: "",
+    lawsoniaQtd: "",
+    influenzaQtd: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -66,7 +66,8 @@ const FormularioVacinacao = () => {
   ];
 
   // Suas listas de produtores (UPD e Creche) aqui
-  const produtoresUPD = [ "NÃO APLICADO",
+  const produtoresUPD = [
+    "NÃO APLICADO",
     "ALCIDES BACCIN",
     "ANDREI LUIZ LORENZETTI",
     "ANTONIO DEZORDI EOU VALDIR DEZORDI",
@@ -112,9 +113,11 @@ const FormularioVacinacao = () => {
     "VALMIR VORTMANN  TP44",
     "VIVIANE FERNANDES MORAES SCHUMACHER",
     "VIVIANE USINGER",
-    "VOLNEY WILLEMANN",]; 
+    "VOLNEY WILLEMANN",
+  ];
 
-  const produtoresCreche = [ "NÃO APLICADO",
+  const produtoresCreche = [
+    "NÃO APLICADO",
     "ANTONIO CLAUDECIR PAGNUSSATT (01)",
     "ADELMO SCHEEL",
     "ADILSON PAVAN",
@@ -218,21 +221,22 @@ const FormularioVacinacao = () => {
     "VALMIR DACAMPO GP02",
     "VALMIR DACAMPO GP03",
     "VANDERLI  PICOLLI EOU GRACIELA PICOLLI",
-    "VELANIR DAL BELLO ALBERTON",];
+    "VELANIR DAL BELLO ALBERTON",
+  ];
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
+
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-      ...(type === 'checkbox' && !checked && { [`${name}Qtd`]: '' })
+      [name]: type === "checkbox" ? checked : value,
+      ...(type === "checkbox" && !checked && { [`${name}Qtd`]: "" }),
     });
 
-    if (name.endsWith('Qtd')) {
+    if (name.endsWith("Qtd")) {
       setErrors({
         ...errors,
-        [name]: null
+        [name]: null,
       });
     }
   };
@@ -241,22 +245,23 @@ const FormularioVacinacao = () => {
     const newErrors = {};
 
     const vacinas = [
-      { key: 'coliRotavirus', label: 'Coli Rotavírus' },
-      { key: 'coli', label: 'Coli' },
-      { key: 'rinite', label: 'Rinite' },
-      { key: 'parvoviroseErisipela', label: 'Parvovirose e Erisipela' },
-      { key: 'mycoplasmaCircovirus', label: 'Mycoplasma e Circovírus' },
-      { key: 'circovirus', label: 'Circovírus' },
-      { key: 'mycoplasma', label: 'Mycoplasma' },
-      { key: 'autogenaStreptococcus', label: 'Autogena Streptococcus' },
-      { key: 'autogenaRespiratorio', label: 'Autogena Respiratório' },
-      { key: 'lawsonia', label: 'Lawsonia' },
-      { key: 'influenza', label: 'Influenza' }
+      { key: "coliRotavirus", label: "Coli Rotavírus" },
+      { key: "coli", label: "Coli" },
+      { key: "rinite", label: "Rinite" },
+      { key: "parvoviroseErisipela", label: "Parvovirose e Erisipela" },
+      { key: "mycoplasmaCircovirus", label: "Mycoplasma e Circovírus" },
+      { key: "circovirus", label: "Circovírus" },
+      { key: "mycoplasma", label: "Mycoplasma" },
+      { key: "autogenaStreptococcus", label: "Autogena Streptococcus" },
+      { key: "autogenaRespiratorio", label: "Autogena Respiratório" },
+      { key: "lawsonia", label: "Lawsonia" },
+      { key: "influenza", label: "Influenza" },
     ];
 
     vacinas.forEach((vacina) => {
       if (formData[vacina.key] && !formData[`${vacina.key}Qtd`]) {
-        newErrors[`${vacina.key}Qtd`] = 'Por favor, informe a quantidade para esta vacina.';
+        newErrors[`${vacina.key}Qtd`] =
+          "Por favor, informe a quantidade para esta vacina.";
       }
     });
 
@@ -268,13 +273,11 @@ const FormularioVacinacao = () => {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log('Form submitted', formData);
+      console.log("Form submitted", formData);
       // Aqui você pode adicionar o código para enviar os dados para o servidor ou processá-los
     }
   };
 
-  
-  
   return (
     <>
       {/* Nome */}
@@ -288,11 +291,13 @@ const FormularioVacinacao = () => {
         >
           <option value="">SELECIONE UM DOS NOMES</option>
           {nomes.map((nome, index) => (
-            <option key={`nome-${index}`} value={nome}>{nome}</option>
+            <option key={`nome-${index}`} value={nome}>
+              {nome}
+            </option>
           ))}
         </select>
       </div>
-  
+
       {/* Ajudante */}
       <div className="form-group">
         <label>Ajudante:</label>
@@ -304,11 +309,13 @@ const FormularioVacinacao = () => {
         >
           <option value="">SELECIONE UM DOS VACINADORES AJUDANTE</option>
           {ajudante.map((ajudante, index) => (
-            <option key={`ajudante-${index}`} value={ajudante}>{ajudante}</option>
+            <option key={`ajudante-${index}`} value={ajudante}>
+              {ajudante}
+            </option>
           ))}
         </select>
       </div>
-  
+
       {/* Produtor UPD */}
       <div className="form-group">
         <label>Produtor - UPD:</label>
@@ -320,11 +327,13 @@ const FormularioVacinacao = () => {
         >
           <option value="">SELECIONE UM PRODUTOR UPD</option>
           {produtoresUPD.map((produtor, index) => (
-            <option key={`produtorUPD-${index}`} value={produtor}>{produtor}</option>
+            <option key={`produtorUPD-${index}`} value={produtor}>
+              {produtor}
+            </option>
           ))}
         </select>
       </div>
-  
+
       {/* Produtor Creche */}
       <div className="form-group">
         <label>Produtor - CRECHE:</label>
@@ -336,11 +345,13 @@ const FormularioVacinacao = () => {
         >
           <option value="">SELECIONE UM PRODUTOR CRECHE</option>
           {produtoresCreche.map((produtor, index) => (
-            <option key={`produtorCreche-${index}`} value={produtor}>{produtor}</option>
+            <option key={`produtorCreche-${index}`} value={produtor}>
+              {produtor}
+            </option>
           ))}
         </select>
       </div>
-  
+
       {/* Data de Aplicação */}
       <div className="form-group">
         <label>Data da Aplicação:</label>
@@ -352,7 +363,7 @@ const FormularioVacinacao = () => {
             const selectedDate = new Date(e.target.value);
             const today = new Date();
             today.setHours(0, 0, 0, 0);
-  
+
             if (selectedDate > today) {
               alert("A data não pode ser futura!");
               e.target.value = "";
@@ -361,11 +372,13 @@ const FormularioVacinacao = () => {
             }
           }}
           required
-          max={new Date().toISOString().split('T')[0]}
+          max={new Date().toISOString().split("T")[0]}
         />
-        {errors.dataAplicacao && <span className="error">{errors.dataAplicacao}</span>}
+        {errors.dataAplicacao && (
+          <span className="error">{errors.dataAplicacao}</span>
+        )}
       </div>
-  
+
       {/* Quantidade de Leitões, Leitoas, Matrizes */}
       <div className="form-group">
         <label>Leitões Maternidade:</label>
@@ -377,7 +390,7 @@ const FormularioVacinacao = () => {
           min="0"
         />
       </div>
-  
+
       <div className="form-group">
         <label>Leitoas Vacinadas:</label>
         <input
@@ -388,7 +401,7 @@ const FormularioVacinacao = () => {
           min="0"
         />
       </div>
-  
+
       <div className="form-group">
         <label>Matrizes Vacinadas:</label>
         <input
@@ -399,9 +412,9 @@ const FormularioVacinacao = () => {
           min="0"
         />
       </div>
-  
+
       {/* Leitões Creche + Doses */}
-      <div className="form-group" style={{ marginBottom: '16px' }}>
+      <div className="form-group" style={{ marginBottom: "16px" }}>
         <label>Leitões Creche:</label>
         <input
           type="number"
@@ -409,24 +422,24 @@ const FormularioVacinacao = () => {
           value={formData.leitoesCreche}
           onChange={handleChange}
           min="0"
-          style={{ marginTop: '4px', marginBottom: '8px' }}
+          style={{ marginTop: "4px", marginBottom: "8px" }}
         />
-  
-        <div className="dose-container" style={{ marginTop: '8px' }}>
+
+        <div className="dose-container" style={{ marginTop: "8px" }}>
           {/* 1ª Dose */}
-          <div className="dose-item" style={{ marginBottom: '8px' }}>
+          <div className="dose-item" style={{ marginBottom: "8px" }}>
             <label>
               <input
                 type="checkbox"
                 name="primeiraDose"
                 checked={formData.primeiraDose}
                 onChange={handleChange}
-                style={{ marginRight: '8px' }}
+                style={{ marginRight: "8px" }}
               />
               1ª Dose
             </label>
           </div>
-  
+
           {/* 2ª Dose */}
           <div className="dose-item">
             <label>
@@ -435,22 +448,29 @@ const FormularioVacinacao = () => {
                 name="segundaDose"
                 checked={formData.segundaDose}
                 onChange={handleChange}
-                style={{ marginRight: '8px' }}
+                style={{ marginRight: "8px" }}
               />
               2ª Dose
             </label>
           </div>
         </div>
       </div>
-  
+
       {/* Vacinas */}
       <div className="vacinas-container">
         <h3>Vacinas</h3>
         {[
-          'Coli Rotavirus', 'Coli', 'Cinite', 'Parvovirus Erisipela', 
-          'Mycoplasma Circovirus', 'Circovirus', 'Mycoplasma', 
-          'Autógena Streptococcus', 'Autógena Respiratório', 
-          'Lawsonia', 'Influenza'
+          "Coli Rotavirus",
+          "Coli",
+          "Cinite",
+          "Parvovirus Erisipela",
+          "Mycoplasma Circovirus",
+          "Circovirus",
+          "Mycoplasma",
+          "Autógena Streptococcus",
+          "Autógena Respiratório",
+          "Lawsonia",
+          "Influenza",
         ].map((vacina) => (
           <div key={vacina} className="vacina-item mb-3">
             <label className="d-block">
@@ -462,7 +482,7 @@ const FormularioVacinacao = () => {
               />
               {vacina}
             </label>
-  
+
             {formData[vacina] && (
               <div className="vacina-quantidade mt-2">
                 <input
@@ -480,7 +500,7 @@ const FormularioVacinacao = () => {
           </div>
         ))}
       </div>
-  
+
       {/* Botão de Envio */}
       <div className="mt-4">
         <button type="submit" className="submit-button">
@@ -489,7 +509,6 @@ const FormularioVacinacao = () => {
       </div>
     </>
   );
-  
 };
 
 export default FormularioVacinacao;

@@ -16,6 +16,11 @@ const ExportExcel = () => {
   const [exportSuccess, setExportSuccess] = useState(false);
   const [error, setError] = useState('');
 
+  const formatDate = (date) => {
+    if (!date) return '';
+    return new Date(date).toLocaleDateString('pt-BR');
+  };
+
   const handleExport = async () => {
     if (!startDate || !endDate) {
       setError('Por favor, selecione ambas as datas (inicial e final)');
@@ -43,24 +48,19 @@ const ExportExcel = () => {
         { header: 'Status', key: 'status', width: 10 }
       ];
 
-      // Formatar datas para exibição
-      const formatDate = (date) => {
-        if (!date) return '';
-        return new Date(date).toLocaleDateString('pt-BR');
-      };
-
-      // Dados de exemplo
-      worksheet.addRow({ 
-        startDate: formatDate(startDate), 
-        endDate: formatDate(endDate), 
-        user: 'admin', 
-        status: 'Ativo' 
+      // Adiciona os dados à planilha
+      worksheet.addRow({
+        startDate: formatDate(startDate),
+        endDate: formatDate(endDate),
+        user: 'admin', // Pode ser alterado para variável de usuário
+        status: 'Ativo'
       });
 
       const data = await workbook.xlsx.writeBuffer();
-      const blob = new Blob([data], { 
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+      const blob = new Blob([data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       });
+
       saveAs(blob, `dados_${formatDate(startDate)}_a_${formatDate(endDate)}.xlsx`);
 
       setExportSuccess(true);
@@ -80,7 +80,7 @@ const ExportExcel = () => {
               <Card.Body className="text-center p-4">
                 <i className="bi bi-file-earmark-excel fs-1 text-success mb-3"></i>
                 <h2 className="mb-4">Exportar Dados</h2>
-                
+
                 {error && (
                   <Alert variant="danger" className="mb-4">
                     {error}
@@ -108,7 +108,7 @@ const ExportExcel = () => {
                       isClearable
                     />
                   </Form.Group>
-                  
+
                   <Form.Group className="mb-3">
                     <Form.Label>Data Final</Form.Label>
                     <DatePicker
@@ -126,8 +126,8 @@ const ExportExcel = () => {
                   </Form.Group>
                 </Form>
 
-                <Button 
-                  variant="success" 
+                <Button
+                  variant="success"
                   onClick={handleExport}
                   size="lg"
                   className="mb-4"

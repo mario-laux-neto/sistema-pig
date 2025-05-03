@@ -2,10 +2,13 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Admin from './pages/Admin/Admin'; // Rota para página Admin
-import UserManagement from './pages/Admin/UserManagement'; // Rota para Gerenciar Usuários
-import ExportExcel from './pages/Admin/ExportExcel'; // Rota para Exportar Dados
-import PasswordRecovery from './pages/Admin/PasswordRecovery'; // Rota para Recuperação de Senha
+import Admin from './pages/Admin/Admin';
+import UserManagement from './pages/Admin/UserManagement';
+import ExportExcel from './pages/Admin/ExportExcel';
+import PasswordRecovery from './pages/Admin/PasswordRecovery';
+import Vacinas from './pages/Admin/vacinas';
+import LogAtividades from './pages/Admin/logAtividades';
+import LogSistema from './pages/Admin/logSistema';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -14,18 +17,15 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Rota padrão para Home */}
         <Route path="/" element={<Home />} />
-        {/* Rota de Login */}
         <Route path="/login" element={<Login />} />
-        {/* Rota de Admin */}
         <Route path="/admin" element={<Admin />} />
-        {/* Rota para Gerenciamento de Usuários */}
         <Route path="/admin/users" element={<UserManagement />} />
-        {/* Rota para Exportar Dados */}
         <Route path="/admin/exportexcel" element={<ExportExcel />} />
-        {/* Rota para Recuperação de Senha */}
         <Route path="/admin/passwordrecovery" element={<PasswordRecovery />} />
+        <Route path="/admin/vacinas" element={<Vacinas />} />
+        <Route path="/admin/logs/atividades" element={<LogAtividades />} />
+        <Route path="/admin/logs/sistema" element={<LogSistema />} />
       </Routes>
     </Router>
   );
