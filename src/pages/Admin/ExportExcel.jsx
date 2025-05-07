@@ -1,71 +1,64 @@
-import React, { useState } from 'react';
-import { Container, Card, Button, Row, Col, Form, Spinner, Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { saveAs } from 'file-saver';
-import * as ExcelJS from 'exceljs';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import './ExportExcel.css';
+import React, { useState } from "react";
+import { Container, Card, Button, Row, Col, Form, Spinner, Alert } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import "./ExportExcel.css";
+import api from "../../services/api";
 
 const ExportExcel = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [isExporting, setIsExporting] = useState(false);
   const [exportSuccess, setExportSuccess] = useState(false);
-  const [error, setError] = useState('');
-
-  const formatDate = (date) => {
-    if (!date) return '';
-    return new Date(date).toLocaleDateString('pt-BR');
-  };
+  const [error, setError] = useState("");
 
   const handleExport = async () => {
     if (!startDate || !endDate) {
-      setError('Por favor, selecione ambas as datas (inicial e final)');
+      setError("Por favor, selecione ambas as datas (inicial e final)");
       return;
     }
 
     if (startDate > endDate) {
-      setError('A data final deve ser maior ou igual à data inicial');
+      setError("A data final deve ser maior ou igual à data inicial");
       return;
     }
 
-    setError('');
+    setError("");
     setIsExporting(true);
     setExportSuccess(false);
 
     try {
-      const workbook = new ExcelJS.Workbook();
-      const worksheet = workbook.addWorksheet('Dados');
+      const formattedStartDate = startDate.toISOString().split("T")[0];
+      const formattedEndDate = endDate.toISOString().split("T")[0];
 
-      // Cabeçalhos
-      worksheet.columns = [
-        { header: 'Data Inicial', key: 'startDate', width: 15 },
-        { header: 'Data Final', key: 'endDate', width: 15 },
-        { header: 'Usuário', key: 'user', width: 20 },
-        { header: 'Status', key: 'status', width: 10 }
-      ];
-
-      // Adiciona os dados à planilha
-      worksheet.addRow({
-        startDate: formatDate(startDate),
-        endDate: formatDate(endDate),
-        user: 'admin', // Pode ser alterado para variável de usuário
-        status: 'Ativo'
+      // Faz a requisição para a API
+      const response = await api.get("/exportExcel/formularios", {
+        params: {
+          startDate: formattedStartDate,
+          endDate: formattedEndDate,
+        },
+        responseType: "blob", // Para receber o arquivo como blob
       });
 
-      const data = await workbook.xlsx.writeBuffer();
-      const blob = new Blob([data], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      });
-
-      saveAs(blob, `dados_${formatDate(startDate)}_a_${formatDate(endDate)}.xlsx`);
+      // Cria um link para download do arquivo
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute(
+        "download",
+        `formularios_${formattedStartDate}_a_${formattedEndDate}.xlsx`
+      );
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
 
       setExportSuccess(true);
     } catch (err) {
-      setError('Ocorreu um erro durante a exportação. Por favor, tente novamente.');
+      console.error("Erro ao exportar os dados:", err);
+      setError("Ocorreu um erro durante a exportação. Por favor, tente novamente.");
     } finally {
       setIsExporting(false);
     }

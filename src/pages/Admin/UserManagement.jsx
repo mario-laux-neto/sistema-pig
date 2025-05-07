@@ -1,82 +1,82 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Card, Button, Form, ListGroup, Alert, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import './UserManagement.css';
+import React, { useState, useEffect } from "react";
+import {
+  Container,
+  Card,
+  Button,
+  Form,
+  ListGroup,
+  Alert,
+  Row,
+  Col,
+} from "react-bootstrap";
+import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import "./UserManagement.css";
+import api from "../../services/api"; // Importa o serviço de API
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
-  const [newUser, setNewUser] = useState('');
-  const [newPassword, setNewPassword] = useState('');
+  const [newUser, setNewUser] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [showAlert, setShowAlert] = useState(false);
+  const [visiblePasswords, setVisiblePasswords] = useState({}); // Estado para controlar a visibilidade das senhas
 
-  // 3. Buscar usuários do backend ao carregar a tela
+  // 1. Buscar usuários do backend ao carregar a tela
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:3000/usuarios');
-        const data = await response.json();
-        setUsers(data); // Atualiza a lista de usuários com os dados do backend
+        const response = await api.get("/usuarios");
+        setUsers(response.data); // Atualiza a lista de usuários com os dados do backend
       } catch (error) {
-        console.error('Erro ao buscar usuários:', error);
+        console.error("Erro ao buscar usuários:", error);
       }
     };
 
     fetchUsers();
   }, []);
 
-  // 2. Alterar handleAddUser para enviar os dados via fetch
+  // 2. Adicionar um novo usuário
   const handleAddUser = async () => {
-    if (newUser.trim() === '' || newPassword.trim() === '') {
+    if (newUser.trim() === "" || newPassword.trim() === "") {
       setShowAlert(true);
       return;
     }
 
-    const userObj = { username: newUser.trim(), password: newPassword.trim() };
+    const userObj = { nome: newUser.trim(), senha: newPassword.trim() };
 
     try {
-      const response = await fetch('http://localhost:3000/usuarios', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userObj),
-      });
-
-      if (response.ok) {
-        const newUser = await response.json();
-        setUsers([...users, newUser]); // Adiciona o usuário à lista após sucesso
-        setNewUser('');
-        setNewPassword('');
-        setShowAlert(false);
-      } else {
-        alert('Erro ao criar usuário');
-      }
+      await api.post("/usuarios", userObj);
+      const response = await api.get("/usuarios"); // Atualiza a lista de usuários após criar
+      setUsers(response.data);
+      setNewUser("");
+      setNewPassword("");
+      setShowAlert(false);
     } catch (err) {
-      console.error('Erro de conexão:', err);
-      alert('Erro ao se conectar com o servidor');
+      console.error("Erro ao criar usuário:", err);
+      alert("Erro ao criar usuário");
     }
   };
 
-  // 4. Alterar a exclusão para fazer DELETE na API
-  const handleDeleteUser = async (username) => {
-    if (window.confirm(`Tem certeza que deseja excluir "${username}"?`)) {
+  // 3. Excluir um usuário
+  const handleDeleteUser = async (nome) => {
+    if (window.confirm(`Tem certeza que deseja excluir "${nome}"?`)) {
       try {
-        const response = await fetch(`http://localhost:3000/usuarios/${username}`, {
-          method: 'DELETE',
-        });
-
-        if (response.ok) {
-          setUsers(users.filter(u => u.username !== username)); // Atualiza a lista de usuários
-        } else {
-          alert('Erro ao excluir usuário');
-        }
+        await api.delete(`/usuarios/${nome}`);
+        setUsers(users.filter((u) => u.nome !== nome)); // Atualiza a lista de usuários
       } catch (error) {
-        console.error('Erro ao excluir usuário:', error);
-        alert('Erro ao se conectar com o servidor');
+        console.error("Erro ao excluir usuário:", error);
+        alert("Erro ao excluir usuário");
       }
     }
+  };
+
+  // Alternar visibilidade da senha de um usuário
+  const togglePasswordVisibility = (nome) => {
+    setVisiblePasswords((prevState) => ({
+      ...prevState,
+      [nome]: !prevState[nome], // Alterna o estado de visibilidade da senha
+    }));
   };
 
   return (
@@ -92,7 +92,11 @@ const UserManagement = () => {
                 </div>
 
                 {showAlert && (
-                  <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible>
+                  <Alert
+                    variant="danger"
+                    onClose={() => setShowAlert(false)}
+                    dismissible
+                  >
                     Preencha o nome de usuário e a senha!
                   </Alert>
                 )}
@@ -117,8 +121,8 @@ const UserManagement = () => {
                       />
                     </Col>
                     <Col md={3}>
-                      <Button 
-                        variant="primary" 
+                      <Button
+                        variant="primary"
                         onClick={handleAddUser}
                         className="w-100"
                       >
@@ -136,18 +140,50 @@ const UserManagement = () => {
                   <ListGroup variant="flush">
                     {users.length > 0 ? (
                       users.map((user, index) => (
-                        <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
+                        <ListGroup.Item
+                          key={index}
+                          className="d-flex justify-content-between align-items-center"
+                        >
                           <span>
                             <i className="bi bi-person-fill me-2"></i>
-                            {user.username}
+                            {user.nome}
                           </span>
-                          <Button 
-                            variant="outline-danger" 
-                            size="sm"
-                            onClick={() => handleDeleteUser(user.username)}
-                          >
-                            <i className="bi bi-trash"></i>
-                          </Button>
+                          <div className="d-flex align-items-center">
+                            <Form.Control
+                              type={
+                                visiblePasswords[user.nome]
+                                  ? "text"
+                                  : "password"
+                              } // Alterna entre "text" e "password"
+                              value={user.senha || ""} // Exibe a senha do usuário
+                              readOnly
+                              className="me-2"
+                              style={{ width: "150px" }}
+                            />
+                            <Button
+                              variant="outline-secondary"
+                              size="sm"
+                              onClick={() =>
+                                togglePasswordVisibility(user.nome)
+                              } // Alterna visibilidade
+                            >
+                              <i
+                                className={`bi ${
+                                  visiblePasswords[user.nome]
+                                    ? "bi-eye-slash"
+                                    : "bi-eye"
+                                }`}
+                              ></i>
+                            </Button>
+                            <Button
+                              variant="outline-danger"
+                              size="sm"
+                              className="ms-2"
+                              onClick={() => handleDeleteUser(user.nome)}
+                            >
+                              <i className="bi bi-trash"></i>
+                            </Button>
+                          </div>
                         </ListGroup.Item>
                       ))
                     ) : (

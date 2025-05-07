@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Table, Card, Row, Col, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios'; // Importar Axios
+import api from '../../services/api'; // Importar o serviço API configurado
 import './vacinas.css'; // Importando o CSS personalizado
 
 const Vacinas = () => {
@@ -15,7 +15,7 @@ const Vacinas = () => {
   useEffect(() => {
     const fetchVacinas = async () => {
       try {
-        const response = await axios.get('/api/vacinas'); // Substitua pela URL do seu backend
+        const response = await api.get('/vacinas'); // Usando o serviço API configurado
         setVacinas(response.data);
       } catch (error) {
         setAlertVariant('danger');
@@ -39,9 +39,9 @@ const Vacinas = () => {
     }
 
     try {
-      const response = await axios.post('/api/vacinas', { nome: vacina.trim() }); // Substitua pela URL da sua API
+      const response = await api.post('/vacinas', { nome: vacina.trim() }); // Usando o serviço API configurado
       if (response.status === 201) {
-        setVacinas([...vacinas, vacina.trim()]);
+        setVacinas([...vacinas, response.data.nome]); // Atualiza a lista com a resposta do backend
         setVacina('');
         setAlertVariant('success');
         setAlertMessage('Vacina adicionada com sucesso!');
