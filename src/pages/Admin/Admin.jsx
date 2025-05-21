@@ -79,7 +79,7 @@ const Admin = () => {
           </Col>
 
           {/* Cadastrar Tipos de Vacina */}
-          <Col xs={12} md={4}>
+          {/* <Col xs={12} md={4}>
             <Card className="h-100 shadow-sm admin-card">
               <Card.Body className="text-center">
                 <i className="bi bi-capsule-pill fs-1 text-info mb-3" aria-hidden="true"></i>
@@ -92,10 +92,10 @@ const Admin = () => {
                 </Link>
               </Card.Body>
             </Card>
-          </Col>
+          </Col> */}
 
           {/* Log de Atividades */}
-          <Col xs={12} md={4}>
+          {/* <Col xs={12} md={4}>
             <Card className="h-100 shadow-sm admin-card">
               <Card.Body className="text-center">
                 <i className="bi bi-clock-history fs-1 text-secondary mb-3" aria-hidden="true"></i>
@@ -108,10 +108,10 @@ const Admin = () => {
                 </Link>
               </Card.Body>
             </Card>
-          </Col>
+          </Col> */}
 
           {/* Logs do Sistema */}
-          <Col xs={12} md={4}>
+          {/* <Col xs={12} md={4}>
             <Card className="h-100 shadow-sm admin-card">
               <Card.Body className="text-center">
                 <i className="bi bi-journal-text fs-1 text-dark mb-3" aria-hidden="true"></i>
@@ -124,7 +124,7 @@ const Admin = () => {
                 </Link>
               </Card.Body>
             </Card>
-          </Col>
+          </Col> */}
         </Row>
 
         <div className="text-center mt-5">

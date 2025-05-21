@@ -3,6 +3,9 @@ import "../styles/formulario.css";
 import api from "../services/api";
 
 const FormularioVacinacao = () => {
+  const [nomeVacina, setNomeVacina] = useState("");
+  const [vacinasCadastradas, setVacinasCadastradas] = useState([]);
+  const [vacinasDisponiveis, setVacinasDisponiveis] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     nome: "",
@@ -17,7 +20,6 @@ const FormularioVacinacao = () => {
     ajudante: "",
   });
   const [errors, setErrors] = useState({});
-  const [vacinas, setVacinas] = useState([]);
 
   const nomes = [
     "NÃO APLICADO",
@@ -202,26 +204,26 @@ const FormularioVacinacao = () => {
     "VELANIR DAL BELLO ALBERTON",
   ];
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-      ...(type === "checkbox" && !checked && { [`${name}Qtd`]: "" }),
-    });
-
-    if (name.endsWith("Qtd")) {
-      setErrors({
-        ...errors,
-        [name]: null,
-      });
-    }
-  };
+  // Lista fixa de vacinas cadastradas diretamente no código
+  const vacinasFixas = [
+    { nome: "COLI + ROTAVÍRUS 2.4.3." },
+    { nome: "COLIBACILOSE" },
+    { nome: "RENITE" },
+    { nome: "PARVOVIROSE + ERISIPELA" },
+    { nome: "MYCOPLASMA" },
+    { nome: "CIRCOVÍRUS" },
+    { nome: "MYCOPLASMA + CIRCOVÍRUS" },
+    { nome: "ILEITIS (LAWSONIA)" },
+    { nome: "AUTOGENA STREPTOCOCCUS" },
+    { nome: "AUTOGENA RESPIRATÓRIA" },
+    { nome: "INFLUENZA" },
+    { nome: "SALMONELLA" },
+    // Adicione mais vacinas conforme necessário
+  ];
 
   const validateForm = () => {
     const newErrors = {};
-  
+
     Object.keys(formData).forEach((key) => {
       if (key.endsWith("Qtd")) {
         const vacinaKey = key.replace("Qtd", "");
@@ -230,33 +232,55 @@ const FormularioVacinacao = () => {
         }
       }
     });
-  
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+      ...(type === "checkbox" && !checked && { [`${name}Qtd`]: "" }), // Limpa quantidade se desmarcar
+    });
+
+    // Limpa erros ao modificar
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: null,
+      });
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault(); // Evita o comportamento padrão do formulário (recarregar a página)
-  
+
     setIsLoading(true); // Ativa o estado de carregamento
-  
+
     if (validateForm()) {
       try {
         const sanitizedData = { ...formData };
-  
+
         // Converte strings vazias para null e strings numéricas para números
         Object.keys(sanitizedData).forEach((key) => {
           if (sanitizedData[key] === "") {
             sanitizedData[key] = null;
-          } else if (key.endsWith("Qtd") && typeof sanitizedData[key] === "string") {
+          } else if (
+            key.endsWith("Qtd") &&
+            typeof sanitizedData[key] === "string"
+          ) {
             sanitizedData[key] = parseInt(sanitizedData[key], 10) || 0;
           }
         });
-  
+
         console.log("Dados enviados:", sanitizedData);
-        const response = await api("/formularios", sanitizedData);
+        const response = await api.post("/formularios", sanitizedData);
         console.log("Resposta da API:", response.data);
         alert("Registro salvo com sucesso!");
-  
+
         // Resetar o formulário
         setFormData({
           nome: "",
@@ -276,28 +300,23 @@ const FormularioVacinacao = () => {
         alert("Erro ao salvar o registro. Tente novamente.");
       }
     }
-  
+
     setIsLoading(false); // Desativa o estado de carregamento
   };
 
   return (
     <>
-    <div className="form-group">
-    <label>Nome:</label>
-    <select
-      name="nome"
-      value={formData.nome}
-      onChange={handleChange}
-      required
-    >
-      <option value="">SELECIONE UM DOS NOMES</option>
-      {nomes.map((nome, index) => (
-        <option key={`nome-${index}`} value={nome}>
-          {nome}
-        </option>
-      ))}
-    </select>
-  </div>
+      <div className="form-group">
+        <label>Nome:</label>
+        <select name="nome" value={formData.nome} onChange={handleChange}>
+          <option value="">SELECIONE UM DOS NOMES</option>
+          {nomes.map((nome, index) => (
+            <option key={`nome-${index}`} value={nome}>
+              {nome}
+            </option>
+          ))}
+        </select>
+      </div>
 
       {/* Ajudante */}
       <div className="form-group">
@@ -457,43 +476,39 @@ const FormularioVacinacao = () => {
         </div>
       </div>
 
-      {Object.keys(formData).map((key) => {
-  if (key.endsWith("Qtd")) {
-    const vacinaKey = key.replace("Qtd", "");
-    return (
-      <div key={vacinaKey} className="form-group">
-        <label>
-          <input
-            type="checkbox"
-            name={vacinaKey}
-            checked={formData[vacinaKey] || false}
-            onChange={handleChange}
-          />
-          {typeof vacinaKey === "string" ? vacinaKey : JSON.stringify(vacinaKey)}
-        </label>
-        <input
-          type="number"
-          name={key}
-          value={formData[key] || 0}
-          onChange={handleChange}
-          disabled={!formData[vacinaKey]}
-          min="0"
-        />
-      </div>
-    );
-  }
-  return null;
-})}
+      {vacinasFixas.map((vacina, index) => (
+        <div key={index} className="form-group">
+          <label>
+            <input
+              type="checkbox"
+              name={vacina.nome}
+              checked={formData[vacina.nome] || false}
+              onChange={handleChange}
+            />
+            {vacina.nome}
+          </label>
+          {formData[vacina.nome] && (
+            <input
+              type="number"
+              name={`${vacina.nome}Qtd`}
+              placeholder="Quantidade aplicada"
+              value={formData[`${vacina.nome}Qtd`] || ""}
+              onChange={handleChange}
+              className={errors[`${vacina.nome}Qtd`] ? "input-error" : ""}
+            />
+          )}
+          {errors[`${vacina.nome}Qtd`] && (
+            <span className="error">{errors[`${vacina.nome}Qtd`]}</span>
+          )}
+        </div>
+      ))}
 
-{/* Formulário de envio */}
-<form onSubmit={handleSubmit}>
-  {/* Botão de Envio */}
-  <div className="mt-4">
-    <button type="submit" disabled={isLoading}>
-      {isLoading ? "Salvando..." : "Salvar Registro"}
-    </button>
-  </div>
-</form>
+      {/* Botão de Envio */}
+      <div className="mt-4">
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "Salvando..." : "Salvar Registro"}
+        </button>
+      </div>
     </>
   );
 };

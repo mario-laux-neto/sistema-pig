@@ -1,6 +1,6 @@
-.admin-wrapper {
-    background-color: #FF4500; /* Fundo laranja */
-    min-height: 100vh; /* 100% altura da tela */
+/* .admin-wrapper {
+    background-color: #FF4500;
+    height: 100vh; 
     padding: 20px;
   }
   
@@ -16,7 +16,7 @@
     font-weight: bold;
   }
   .cyan-btn {
-    background-color: #28bef5; /* Azul ciano */
-    color: black; /* Cor do texto */
+    background-color: #28bef5; 
+    color: black; 
     border: none;
-  }
+  } */
